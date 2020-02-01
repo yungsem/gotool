@@ -13,15 +13,15 @@ type Log struct {
 	serverName string
 }
 
-func (l *Log) Debug(msg string) *zerolog.Event {
+func (l *Log) Debug() *zerolog.Event {
 	return l.zeroLog.Debug()
 }
 
-func (l *Log) Info(msg string) *zerolog.Event {
+func (l *Log) Info() *zerolog.Event {
 	return l.zeroLog.Info()
 }
 
-func (l *Log) Error(err error) *zerolog.Event {
+func (l *Log) Error() *zerolog.Event {
 	return l.zeroLog.Error()
 }
 
