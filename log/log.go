@@ -17,6 +17,10 @@ func (l *Log) Info(msg string) {
 	l.zeroLog.Info().Msg(msg)
 }
 
+func (l *Log) InfoJSON(key string, jsonValue []byte, msg string) {
+	l.zeroLog.Info().RawJSON(key, jsonValue).Msg(msg)
+}
+
 func (l *Log) InfoF(format string, v ...interface{}) {
 	l.zeroLog.Info().Msgf(format, v...)
 }
