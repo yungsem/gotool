@@ -13,28 +13,16 @@ type Log struct {
 	serverName string
 }
 
-func (l *Log) Info(msg string) {
-	l.zeroLog.Info().Msg(msg)
+func (l *Log) Debug(msg string) *zerolog.Event {
+	return l.zeroLog.Debug()
 }
 
-func (l *Log) InfoJSON(key string, jsonValue []byte, msg string) {
-	l.zeroLog.Info().RawJSON(key, jsonValue).Msg(msg)
+func (l *Log) Info(msg string) *zerolog.Event {
+	return l.zeroLog.Info()
 }
 
-func (l *Log) InfoF(format string, v ...interface{}) {
-	l.zeroLog.Info().Msgf(format, v...)
-}
-
-func (l *Log) Debug(msg string) {
-	l.zeroLog.Debug().Msg(msg)
-}
-
-func (l *Log) DebugF(format string, v ...interface{}) {
-	l.zeroLog.Debug().Msgf(format, v...)
-}
-
-func (l *Log) Error(err error) {
-	l.zeroLog.Error().Err(err).Msg(err.Error())
+func (l *Log) Error(err error) *zerolog.Event {
+	return l.zeroLog.Error()
 }
 
 func NewLog(output string, level string, logPath string, serverName string) *Log {
