@@ -1,10 +1,28 @@
 package strings
 
 import (
-	"crypto/md5"
-	"fmt"
+	"regexp"
 	"strings"
 )
+
+var (
+	matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
+	matchAllCap   = regexp.MustCompile("([a-z0-9])([A-Z])")
+)
+
+func ToSnakeCaseLower(str string) string {
+	return strings.ToLower(toSnakeCase(str))
+}
+
+func ToSnakeCaseUpper(str string) string {
+	return strings.ToUpper(toSnakeCase(str))
+}
+
+func toSnakeCase(str string) string {
+	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
+	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	return snake
+}
 
 func LowerCaseFirstLetter(s string) string {
 	if len(s) == 0 {
@@ -15,7 +33,3 @@ func LowerCaseFirstLetter(s string) string {
 	return strings.ToLower(first) + rest
 }
 
-func MD5(s string) string {
-	has := md5.Sum([]byte(s))
-	return fmt.Sprintf("%x", has)
-}
