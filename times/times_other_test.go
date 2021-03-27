@@ -44,3 +44,16 @@ func TestGap(t *testing.T) {
 	gap := Gap(t1, t2)
 	fmt.Println(gap)
 }
+
+func TestTimeList(t *testing.T) {
+	start, err := ParseDateTime("2021-04-05 20:00:00")
+	if err != nil {
+		t.Error(err)
+	}
+	end, err := ParseDateTime("2021-04-06 08:00:00")
+	if err != nil {
+		t.Error(err)
+	}
+	timeList := TimeList(start, end, 60*time.Minute)
+	fmt.Println(timeList)
+}

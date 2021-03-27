@@ -19,4 +19,9 @@ func FormatDateTime(t time.Time) string {
 	return format(t, LayoutDateTime)
 }
 
+// FormatDateTime 将 t 格式化成字符串
+// 如：2021-03-26 21:44:12 -> "21:44"
+func FormatHourMinute(t time.Time) string {
+	return format(t, LayoutHourMinute)
+}
 

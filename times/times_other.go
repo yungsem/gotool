@@ -83,16 +83,16 @@ func FirstDayOfYearWeek(year int, yearWeek int) time.Time {
 }
 
 // WeekRange 表示一周的时间范围
-type WeekRange struct {
+type TimeRange struct {
 	start time.Time
 	end   time.Time
 }
 
 // RangeOfYearWeek 根据年份和年周获取年周的范围
-func RangeOfYearWeek(year int, yearWeek int) *WeekRange {
+func RangeOfYearWeek(year int, yearWeek int) *TimeRange {
 	start := FirstDayOfYearWeek(year, yearWeek)
 	end := start.AddDate(0, 0, 6)
-	return &WeekRange{
+	return &TimeRange{
 		start: start,
 		end:   end,
 	}
@@ -112,4 +112,25 @@ func AddDays(t time.Time, days int) time.Time {
 // Gap 计算 end 和 start 之间的时间间隔，即 end - start
 func Gap(start time.Time, end time.Time) time.Duration {
 	return end.Sub(start)
+}
+
+// IsGTE 返回 start >= end 是否成立
+func IsGTE(start time.Time, end time.Time) bool {
+	return start.Equal(end) || start.After(end)
+}
+
+// IsLTE 返回 start <= end 是否成立
+func IsLTE(start time.Time, end time.Time) bool {
+	return start.Equal(end) || start.Before(end)
+}
+
+// TimeList 返回 start 和 end 之间的时间点，每两个时间点之间的间隔 step
+func TimeList(start time.Time, end time.Time, step time.Duration) []string {
+	var timeList []string
+	for IsLTE(start, end) {
+		hm := FormatHourMinute(start)
+		timeList = append(timeList, hm)
+		start = start.Add(step)
+	}
+	return timeList
 }
