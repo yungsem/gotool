@@ -31,7 +31,7 @@ func (lw levelWriterImpl) WriteLevel(level zerolog.Level, p []byte) (n int, err 
 	}
 
 	// 获取当前日期
-	today := time.Now().Format(times.LayoutStandardShort)
+	today := time.Now().Format(times.LayoutDate)
 	// 目录分割符
 	sep := string(os.PathSeparator)
 	// 目录路径

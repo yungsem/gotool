@@ -40,7 +40,7 @@ func NewLog(output string, level string, logPath string, serverName string) *Log
 	}
 
 	// 设置日志的时间格式
-	zerolog.TimeFieldFormat = times.LayoutStandardMil
+	zerolog.TimeFieldFormat = times.LayoutDateTimeMil
 
 	// 设置日志级别
 	switch level {
