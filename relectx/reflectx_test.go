@@ -3,9 +3,17 @@ package reflectx
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
+type Base struct {
+	Id int
+	CreateTime time.Time
+	UpdateTime time.Time
+}
+
 type User struct {
+	Base
 	Username string
 	Password string
 	RealName string
@@ -17,7 +25,7 @@ func TestGetFiledNamesSnake(t *testing.T) {
 		Password: "123456",
 		RealName: "管理员",
 	}
-	names, err := GetFiledNamesSnakeLower(u)
+	names, err := FiledNames(u)
 	if err != nil {
 		t.Errorf("failed: %s", err)
 	}
@@ -31,7 +39,7 @@ func TestGetStructName(t *testing.T) {
 		RealName: "管理员",
 	}
 	expected := "user"
-	name, err := GetStructName(u)
+	name, err := StructName(u)
 	if err != nil {
 		t.Error(err)
 	}

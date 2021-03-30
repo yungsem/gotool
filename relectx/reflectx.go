@@ -8,19 +8,19 @@ import (
 
 var TypeNotSupportError = errors.New("type must be struct")
 
-func GetFiledNames(i interface{}) ([]string, error) {
-	return getFieldNames(i, nil)
+func FiledNames(i interface{}) ([]string, error) {
+	return fieldNames(i, nil)
 }
 
-func GetFiledNamesSnakeLower(i interface{}) ([]string, error) {
-	return getFieldNames(i, strings.ToSnakeCaseLower)
+func FiledNamesSnakeLower(i interface{}) ([]string, error) {
+	return fieldNames(i, strings.ToSnakeCaseLower)
 }
 
-func GetFiledNamesSnakeUpper(i interface{}) ([]string, error) {
-	return getFieldNames(i, strings.ToSnakeCaseUpper)
+func FiledNamesSnakeUpper(i interface{}) ([]string, error) {
+	return fieldNames(i, strings.ToSnakeCaseUpper)
 }
 
-func getFieldNames(i interface{}, caseConverter func(string) string) ([]string, error) {
+func fieldNames(i interface{}, caseConverter func(string) string) ([]string, error) {
 	t := reflect.TypeOf(i)
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
@@ -31,40 +31,44 @@ func getFieldNames(i interface{}, caseConverter func(string) string) ([]string, 
 	var names []string
 	for idx := 0; idx < t.NumField(); idx++ {
 		field := t.Field(idx)
-		fieldType := field.Type
-		if fieldType.Kind() == reflect.Struct {
-			for sIdx := 0; sIdx < fieldType.NumField(); sIdx++ {
-				sField := fieldType.Field(sIdx)
-				sFieldName := sField.Name
-				if caseConverter != nil {
-					sFieldName = caseConverter(sFieldName)
-				}
-				names = append(names, sFieldName)
-			}
-		} else {
-			fieldName := field.Name
+		st := field.Type
+		if st.Kind() != reflect.Struct {
 			if caseConverter != nil {
-				fieldName = caseConverter(fieldName)
+				names = append(names, caseConverter(field.Name))
+			} else {
+				names = append(names, field.Name)
 			}
-			names = append(names, fieldName)
+			continue
+		}
+		// 如果字段也是 struct ，则需要再处理一层
+		// 不递归，只处理一层嵌套
+		for sIdx := 0; sIdx < st.NumField(); sIdx++ {
+			sField := st.Field(sIdx)
+			if caseConverter != nil {
+				names = append(names, caseConverter(sField.Name))
+			} else {
+				names = append(names, sField.Name)
+			}
 		}
 	}
 	return names, nil
 }
 
-func GetStructName(i interface{}) (string, error) {
-	return getStructName(i, nil)
+func StructName(i interface{}) (string, error) {
+	return structName(i, nil)
 }
 
-func GetStructNameSnakeLower(i interface{}) (string, error) {
-	return getStructName(i, strings.ToSnakeCaseLower)
+func StructNameSnakeLower(i interface{}) (string, error) {
+	return structName(i, strings.ToSnakeCaseLower)
 }
 
-func GetStructNameSnakeUpper(i interface{}) (string, error) {
-	return getStructName(i, strings.ToSnakeCaseUpper)
+func StructNameSnakeUpper(i interface{}) (string, error) {
+	return structName(i, strings.ToSnakeCaseUpper)
 }
 
-func getStructName(i interface{}, caseConverter func(string) string) (string, error) {
+// structName 返回 i 的 struct name ，i 必须是 struct 类型
+// caseConverter 是一个转换器，用于将获取到的 struct name 转换为相应的格式
+func structName(i interface{}, caseConverter func(string) string) (string, error) {
 	t := reflect.TypeOf(i)
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
