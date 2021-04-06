@@ -1,6 +1,7 @@
 package reflectx
 
 import (
+	"context"
 	"errors"
 	"github.com/yungsem/gotool/strings"
 	"reflect"
@@ -55,6 +56,7 @@ func fieldNames(i interface{}, caseConverter func(string) string) ([]string, err
 }
 
 func StructName(i interface{}) (string, error) {
+	context.TODO()
 	return structName(i, nil)
 }
 
@@ -82,3 +84,5 @@ func structName(i interface{}, caseConverter func(string) string) (string, error
 	}
 	return t.Name(), nil
 }
+
+
