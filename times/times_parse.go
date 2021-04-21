@@ -4,9 +4,10 @@ import "time"
 
 const (
 	LayoutDate          = "2006-01-02"
+	LayoutDateTight     = "20060102"
 	LayoutDateTime      = "2006-01-02 15:04:05"
 	LayoutHourMinute    = "15:04"
-	LayoutDateTimeMil    = "2006-01-02 15:04:05.99999"
+	LayoutDateTimeMil   = "2006-01-02 15:04:05.99999"
 	LayoutSlashDate     = "2006/01/02"
 	LayoutSlashDateTime = "2006/01/02 15:04:05"
 )
@@ -26,10 +27,8 @@ func ParseDate(timeStr string) (time.Time, error) {
 	return parse(timeStr, LayoutDate)
 }
 
-// ParseDate 将字符串格式的日期时间转换为 time.Time
+// ParseDateTime 将字符串格式的日期时间转换为 time.Time
 // 如："2006-01-02 15:04:05" -> 2006-01-02 15:04:05
 func ParseDateTime(timeStr string) (time.Time, error) {
 	return parse(timeStr, LayoutDateTime)
 }
-
-

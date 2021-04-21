@@ -1,15 +1,16 @@
-package errorf
+package stacks
 
 import (
 	"runtime/debug"
 	"strings"
 )
 
-// Format 格式化 err 的打印信息，加入堆栈信息
-func Format(err error) string {
-	stack := string(debug.Stack())
-	stackArr := strings.Split(stack, "\n")
-	stackArr = stackArr[5:]
+// Stack 格式化 err 的打印信息，加入堆栈信息
+// skip 为需要跳过的调用栈数
+func Stack(skip int) []string {
+	stk := string(debug.Stack())
+	stackArr := strings.Split(stk, "\n")
+	stackArr = stackArr[3+(skip+1)*2:]
 
 	var files []string
 	funcNameMap := make(map[int]string)
@@ -25,7 +26,7 @@ func Format(err error) string {
 			if idx == -1 {
 				continue
 			}
-			s = s[0:idx]
+			s = s[0 : idx-1]
 			s = strings.ReplaceAll(s, "\t", "")
 			files = append(files, s)
 		} else { // 包名。方法名
@@ -43,18 +44,13 @@ func Format(err error) string {
 		}
 	}
 
-	var sb strings.Builder
-	sb.WriteString(err.Error())
-	sb.WriteString("\n")
+	var sl []string
 	for i, s := range files {
-		sb.WriteString(" ->")
+		var sb strings.Builder
 		sb.WriteString(s)
-		sb.WriteString("[")
+		sb.WriteString("->")
 		sb.WriteString(funcNameMap[i])
-		sb.WriteString("]")
-		if i != len(files)-1 {
-			sb.WriteString("\n")
-		}
+		sl = append(sl, sb.String())
 	}
-	return sb.String()
+	return sl
 }
