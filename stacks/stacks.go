@@ -34,7 +34,7 @@ func Stack(skip int) []string {
 			if idx != -1 {
 				s = s[idx+1:]
 			}
-			idx2 := strings.Index(s, "+0x")
+			idx2 := strings.Index(s, "0x")
 			if idx2 != -1 {
 				s = s[0 : idx2-1]
 			}
