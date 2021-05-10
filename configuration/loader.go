@@ -3,12 +3,12 @@ package configuration
 import "gopkg.in/yaml.v2"
 
 type Loader interface {
-	load() map[string][]byte
+	Load() map[string][]byte
 }
 
 // LoadConfig 解析配置文件的内容
 func LoadConfig(loader Loader) *Conf {
-	contentMap := loader.load()
+	contentMap := loader.Load()
 
 	e := env{}
 	envContent := contentMap[ContentMapKeyEnv]
