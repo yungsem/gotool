@@ -131,7 +131,10 @@ func fieldNameTagValueMap(i interface{}, tagKey string, caseConverter func(strin
 				fieldName = field.Name
 			}
 			tag := field.Tag.Get(tagKey)
-			mk := fieldName + " " + tag
+			if tag == "" {
+				tag = "="
+			}
+			mk := fieldName + tag + "?"
 			mv := v.FieldByName(field.Name).Interface()
 			nameTagValueMap[mk] = mv
 			continue
