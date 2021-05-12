@@ -60,3 +60,16 @@ func TestFiledNameTagMapSnakeLower(t *testing.T) {
 	}
 	fmt.Println(m)
 }
+
+func TestFiledNameTagValueMapSnakeLower(t *testing.T) {
+	u := &User{
+		Username: "admin",
+		Password: "123456",
+		RealName: "管理员",
+	}
+	m, err := FiledNameTagValueMapSnakeLower(u, "cond")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Println(m)
+}

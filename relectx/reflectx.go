@@ -95,6 +95,51 @@ func fieldNameTagMap(i interface{}, tagKey string, caseConverter func(string) st
 	return nameTagMap, nil
 }
 
+func FiledNameValueTagMap(i interface{}, tagKey string) (map[string]interface{}, error) {
+	return fieldNameTagValueMap(i, tagKey, nil)
+}
+
+func FiledNameTagValueMapSnakeLower(i interface{}, tagKey string) (map[string]interface{}, error) {
+	return fieldNameTagValueMap(i, tagKey, strings.ToSnakeCaseLower)
+}
+
+func FiledNameTagValueMapSnakeUpper(i interface{}, tagKey string) (map[string]interface{}, error) {
+	return fieldNameTagValueMap(i, tagKey, strings.ToSnakeCaseUpper)
+}
+
+func fieldNameTagValueMap(i interface{}, tagKey string, caseConverter func(string) string) (map[string]interface{}, error) {
+	t := reflect.TypeOf(i)
+	v := reflect.ValueOf(i)
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+		v = v.Elem()
+	}
+	if t.Kind() != reflect.Struct {
+		return nil, TypeNotSupportError
+	}
+
+	nameTagValueMap := make(map[string]interface{})
+	for idx := 0; idx < t.NumField(); idx++ {
+		field := t.Field(idx)
+		st := field.Type
+
+		if st.Kind() != reflect.Struct {
+			var fieldName string
+			if caseConverter != nil {
+				fieldName = caseConverter(field.Name)
+			} else {
+				fieldName = field.Name
+			}
+			tag := field.Tag.Get(tagKey)
+			mk := fieldName + " " + tag
+			mv := v.FieldByName(field.Name).Interface()
+			nameTagValueMap[mk] = mv
+			continue
+		}
+	}
+	return nameTagValueMap, nil
+}
+
 func StructName(i interface{}) (string, error) {
 	context.TODO()
 	return structName(i, nil)

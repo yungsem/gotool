@@ -9,12 +9,12 @@ type SqlBuilder struct {
 }
 
 func (b *SqlBuilder) buildInsert(i interface{}) (string, error) {
-	tblName, err := reflectx.GetStructNameSnakeUpper(i)
+	tblName, err := reflectx.StructNameSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
 
-	fieldNames, err := reflectx.GetFiledNamesSnakeUpper(i)
+	fieldNames, err := reflectx.FiledNamesSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
@@ -39,12 +39,12 @@ func (b *SqlBuilder) buildInsert(i interface{}) (string, error) {
 }
 
 func (b *SqlBuilder) buildUpdateById(i interface{}) (string, error) {
-	tblName, err := reflectx.GetStructNameSnakeUpper(i)
+	tblName, err := reflectx.StructNameSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
 
-	fieldNames, err := reflectx.GetFiledNamesSnakeUpper(i)
+	fieldNames, err := reflectx.FiledNamesSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
@@ -69,12 +69,12 @@ func (b *SqlBuilder) buildUpdateById(i interface{}) (string, error) {
 }
 
 func (b *SqlBuilder) buildGetById(i interface{}) (string, error) {
-	tblName, err := reflectx.GetStructNameSnakeUpper(i)
+	tblName, err := reflectx.StructNameSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
 
-	fieldNames, err := reflectx.GetFiledNamesSnakeUpper(i)
+	fieldNames, err := reflectx.FiledNamesSnakeUpper(i)
 	if err != nil {
 		return "", err
 	}
