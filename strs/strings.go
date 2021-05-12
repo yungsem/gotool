@@ -1,4 +1,4 @@
-package strings
+package strs
 
 import (
 	"regexp"
@@ -41,3 +41,6 @@ func LowerCaseFirstLetter(s string) string {
 	return strings.ToLower(first) + rest
 }
 
+func IsEmpty(s string) bool {
+	return s == "" && len(s) == 0
+}

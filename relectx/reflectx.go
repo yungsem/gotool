@@ -3,7 +3,7 @@ package reflectx
 import (
 	"context"
 	"errors"
-	"github.com/yungsem/gotool/strings"
+	"github.com/yungsem/gotool/strs"
 	"reflect"
 )
 
@@ -14,11 +14,11 @@ func FiledNames(i interface{}) ([]string, error) {
 }
 
 func FiledNamesSnakeLower(i interface{}) ([]string, error) {
-	return fieldNames(i, strings.ToSnakeCaseLower)
+	return fieldNames(i, strs.ToSnakeCaseLower)
 }
 
 func FiledNamesSnakeUpper(i interface{}) ([]string, error) {
-	return fieldNames(i, strings.ToSnakeCaseUpper)
+	return fieldNames(i, strs.ToSnakeCaseUpper)
 }
 
 func fieldNames(i interface{}, caseConverter func(string) string) ([]string, error) {
@@ -60,11 +60,11 @@ func FiledNameTagMap(i interface{}, tagKey string) (map[string]string, error) {
 }
 
 func FiledNameTagMapSnakeLower(i interface{}, tagKey string) (map[string]string, error) {
-	return fieldNameTagMap(i, tagKey, strings.ToSnakeCaseLower)
+	return fieldNameTagMap(i, tagKey, strs.ToSnakeCaseLower)
 }
 
 func FiledNameTagMapSnakeUpper(i interface{}, tagKey string) (map[string]string, error) {
-	return fieldNameTagMap(i, tagKey, strings.ToSnakeCaseUpper)
+	return fieldNameTagMap(i, tagKey, strs.ToSnakeCaseUpper)
 }
 
 func fieldNameTagMap(i interface{}, tagKey string, caseConverter func(string) string) (map[string]string, error) {
@@ -100,11 +100,11 @@ func FiledNameValueTagMap(i interface{}, tagKey string) (map[string]interface{},
 }
 
 func FiledNameTagValueMapSnakeLower(i interface{}, tagKey string) (map[string]interface{}, error) {
-	return fieldNameTagValueMap(i, tagKey, strings.ToSnakeCaseLower)
+	return fieldNameTagValueMap(i, tagKey, strs.ToSnakeCaseLower)
 }
 
 func FiledNameTagValueMapSnakeUpper(i interface{}, tagKey string) (map[string]interface{}, error) {
-	return fieldNameTagValueMap(i, tagKey, strings.ToSnakeCaseUpper)
+	return fieldNameTagValueMap(i, tagKey, strs.ToSnakeCaseUpper)
 }
 
 func fieldNameTagValueMap(i interface{}, tagKey string, caseConverter func(string) string) (map[string]interface{}, error) {
@@ -149,11 +149,11 @@ func StructName(i interface{}) (string, error) {
 }
 
 func StructNameSnakeLower(i interface{}) (string, error) {
-	return structName(i, strings.ToSnakeCaseLower)
+	return structName(i, strs.ToSnakeCaseLower)
 }
 
 func StructNameSnakeUpper(i interface{}) (string, error) {
-	return structName(i, strings.ToSnakeCaseUpper)
+	return structName(i, strs.ToSnakeCaseUpper)
 }
 
 // structName 返回 i 的 struct name ，i 必须是 struct 类型
