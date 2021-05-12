@@ -55,6 +55,46 @@ func fieldNames(i interface{}, caseConverter func(string) string) ([]string, err
 	return names, nil
 }
 
+func FiledNameTagMap(i interface{}, tagKey string) (map[string]string, error) {
+	return fieldNameTagMap(i, tagKey, nil)
+}
+
+func FiledNameTagMapSnakeLower(i interface{}, tagKey string) (map[string]string, error) {
+	return fieldNameTagMap(i, tagKey, strings.ToSnakeCaseLower)
+}
+
+func FiledNameTagMapSnakeUpper(i interface{}, tagKey string) (map[string]string, error) {
+	return fieldNameTagMap(i, tagKey, strings.ToSnakeCaseUpper)
+}
+
+func fieldNameTagMap(i interface{}, tagKey string, caseConverter func(string) string) (map[string]string, error) {
+	t := reflect.TypeOf(i)
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+	if t.Kind() != reflect.Struct {
+		return nil, TypeNotSupportError
+	}
+	nameTagMap := make(map[string]string)
+	for idx := 0; idx < t.NumField(); idx++ {
+		field := t.Field(idx)
+		st := field.Type
+
+		if st.Kind() != reflect.Struct {
+			var fieldName string
+			if caseConverter != nil {
+				fieldName = caseConverter(field.Name)
+			} else {
+				fieldName = field.Name
+			}
+			tag := field.Tag.Get(tagKey)
+			nameTagMap[fieldName] = tag
+			continue
+		}
+	}
+	return nameTagMap, nil
+}
+
 func StructName(i interface{}) (string, error) {
 	context.TODO()
 	return structName(i, nil)
@@ -84,5 +124,3 @@ func structName(i interface{}, caseConverter func(string) string) (string, error
 	}
 	return t.Name(), nil
 }
-
-
